@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // 在script.js末尾添加（DOMContentLoaded事件内）
 const imageSwitcher = {
   init: function () {
-    const images = ["tupian/22.jpg", "tupian/23.jpg", "tupian/1.png"];
+    const images = ["22.jpg", "23.jpg", "1.png"];
     let currentIndex = 0;
     const imgElement = document.querySelector(
       '.x.baise[style*="height: 30%"] img.tupian'
