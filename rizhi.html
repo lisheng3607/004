@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日志 - 双翼天使的空间</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .rizhi-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .rizhi-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .rizhi-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .rizhi-date {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .rizhi-content {
+            line-height: 1.6;
+        }
+
+        .rizhi-actions {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .rizhi-actions button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .rizhi-actions button:hover {
+            background: #e0e0e0;
+        }
+
+        .editor-container {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .editor-container input,
+        .editor-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .editor-container textarea {
+            min-height: 200px;
+        }
+
+        .editor-actions {
+            text-align: right;
+        }
+
+        .editor-actions button {
+            padding: 8px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .editor-actions button.cancel {
+            background: #f44336;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="biaoti flex">
+        <div class="juz">
+            <h1 class="zwb">我的日志</h1>
+        </div>
+        <div class="flex1 flex a9 z">
+            <a class="ywb" href="login.html" target="_blank">登入</a>
+        </div>
+    </div>
+
+    <div class="flex zhuqu">
+        <div style="width: 15%" class="z y flex column">
+            <div class="baise x touxiang yinying">
+                <img src="touxiang/13.jpg" alt="头像图片" class="avatar" />
+                <b class="nichen">双翼的天使</b>
+            </div>
+            <a href="index.html" class="baise x juzhon" style="padding: 10px;">返回首页</a>
+        </div>
+
+        <div style="width: 85%" class="flex column">
+            <div style="overflow: auto" class="flex1 baise neib">
+                <div class="rizhi-container">
+                    <h2>我的日志</h2>
+
+                    <!-- 日志编辑器 -->
+                    <div class="editor-container" id="editorContainer" style="display: none;">
+                        <input type="text" id="rizhiTitle" placeholder="标题">
+                        <textarea id="rizhiContent" placeholder="写下你的日志..."></textarea>
+                        <div class="editor-actions">
+                            <button class="cancel" onclick="cancelEdit()">取消</button>
+                            <button id="saveRizhi" onclick="saveRizhi()">保存</button>
+                        </div>
+                    </div>
+
+                    <!-- 新建日志按钮 -->
+                    <button onclick="newRizhi()"
+                        style="margin-bottom: 20px; padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        新建日志
+                    </button>
+
+                    <!-- 日志列表 -->
+                    <div id="rizhiList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 50px" class="flex1 juzhon flex column">
+        <p class="x">版权所有: 双翼的天使</p>
+        <a href="index.html">返回首页</a>
+    </div>
+
+    <script>
+        let currentEditId = null;
+
+        // 新建日志
+        function newRizhi() {
+            currentEditId = null;
+            document.getElementById('rizhiTitle').value = '';
+            document.getElementById('rizhiContent').value = '';
+            document.getElementById('editorContainer').style.display = 'block';
+            document.getElementById('rizhiTitle').focus();
+        }
+
+        // 保存日志
+        function saveRizhi() {
+            const title = document.getElementById('rizhiTitle').value.trim();
+            const content = document.getElementById('rizhiContent').value.trim();
+
+            if (!title || !content) {
+                alert('标题和内容不能为空');
+                return;
+            }
+
+            const rizhis = JSON.parse(localStorage.getItem('rizhis') || '[]');
+            const now = new Date();
+            const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString().slice(0, 5);
+
+            if (currentEditId !== null) {
+                // 更新现有日志
+                const index = rizhis.findIndex(r => r.id === currentEditId);
+                if (index !== -1) {
+                    rizhis[index] = {
+                        id: currentEditId,
+                        title,
+                        content,
+                        date: dateStr
+                    };
+                }
+            } else {
+                // 添加新日志
+                rizhis.unshift({
+                    id: Date.now(),
+                    title,
+                    content,
+                    date: dateStr
+                });
+            }
+
+            localStorage.setItem('rizhis', JSON.stringify(rizhis));
+            loadRizhis();
+            cancelEdit();
+        }
+
+        // 取消编辑
+        function cancelEdit() {
+            document.getElementById('editorContainer').style.display = 'none';
+            currentEditId = null;
+        }
+
+        // 编辑日志
+        function editRizhi(id) {
+            const rizhis = JSON.parse(localStorage.getItem('rizhis') || '[]');
+            const rizhi = rizhis.find(r => r.id === id);
+
+            if (rizhi) {
+                currentEditId = id;
+                document.getElementById('rizhiTitle').value = rizhi.title;
+                document.getElementById('rizhiContent').value = rizhi.content;
+                document.getElementById('editorContainer').style.display = 'block';
+                document.getElementById('rizhiTitle').focus();
+            }
+        }
+
+        // 删除日志
+        function deleteRizhi(id) {
+            if (confirm('确定要删除这篇日志吗？')) {
+                const rizhis = JSON.parse(localStorage.getItem('rizhis') || '[]');
+                const filtered = rizhis.filter(r => r.id !== id);
+                localStorage.setItem('rizhis', JSON.stringify(filtered));
+                loadRizhis();
+            }
+        }
+
+        // 加载日志
+        function loadRizhis() {
+            const rizhis = JSON.parse(localStorage.getItem('rizhis') || '[]');
+            const container = document.getElementById('rizhiList');
+            container.innerHTML = '';
+
+            if (rizhis.length === 0) {
+                container.innerHTML = '<p>暂无日志，点击"新建日志"开始记录</p>';
+                return;
+            }
+
+            rizhis.forEach(rizhi => {
+                const item = document.createElement('div');
+                item.className = 'rizhi-item';
+                item.innerHTML = `
+          <div class="rizhi-title">${rizhi.title}</div>
+          <div class="rizhi-date">${rizhi.date}</div>
+          <div class="rizhi-content">${rizhi.content.replace(/\n/g, '<br>')}</div>
+          <div class="rizhi-actions">
+            <button onclick="editRizhi(${rizhi.id})">编辑</button>
+            <button onclick="deleteRizhi(${rizhi.id})">删除</button>
+          </div>
+        `;
+                container.appendChild(item);
+            });
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', loadRizhis);
+    </script>
+</body>
+
+</html>

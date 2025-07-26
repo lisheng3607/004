@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>双翼天使的空间</title>
+</head>
+
+<body>
+    <!-- 标题栏 -->
+    <div class="biaoti flex" style="">
+        <!-- 昵称栏 - 居中 -->
+        <div class="juz " style="flex: 1; text-align: center;">
+            <h1 class="zwb zt" style="margin: 0; ">欢迎来到双翼天使的空间</h1>
+        </div>
+        <!-- 背景音乐 - 靠后 -->
+        <div class="music-container flex youbian" style="align-items: center; margin-left: auto;">
+            <div style="margin-right: 15px;">
+                <img src="touxiang/13.jpg" alt="音乐封面" id="musicCover" class="yit yintu" />
+            </div>
+            <div class="mus flex" style="align-items: center;">
+                <audio id="bgMusic" controls style="width: 150px; height: 30px;">
+                    <source src="tupian/曾经爱过你 - 郑源.mp3" type="audio/mpeg">
+                    您的浏览器不支持音频元素。
+                </audio>
+                <div style="margin-left: 10px; display: flex;">
+                    <input type="file" id="yinyue_upload" accept="audio/*" style="display: none;">
+                    <button id="yinyue_change" class="upload-btn" style="padding: 2px 5px; font-size: 12px;">更换</button>
+                    <button id="yinyue_clear" class="upload-btn"
+                        style="padding: 2px 5px; font-size: 12px; margin-left: 5px;">清除</button>
+                </div>
+            </div>
+        </div>
+        <!-- 登录 - 最末尾 -->
+        <div class="flex a9" style="margin-left: 20px;">
+            <a class="ywb dengru" href="login.html" target="_blank" style="">登入</a>
+        </div>
+    </div>
+    <!--主区域-->
+    <div class="flex zhuqu">
+        <!--左边栏-->
+        <div style="width: 15%" class="s z y flex column">
+            <!-- 头像栏 -->
+            <div class="baise x touxiang yinying" id="profileHeader">
+                <img src="tupian/1.png" alt="头像图片" class="avatar" />
+                <b class="nichen">双翼的天使</b>
+            </div>
+
+            <!-- 添加资料面板 (放在头像栏下方) -->
+            <div id="profilePanel" class="profile-panel baise yinying" style="display: none;">
+                <div class="profile-header">
+                    <h3>个人资料</h3>
+                    <button id="closeProfile" class="close-btn">×</button>
+                </div>
+                <form id="profileForm" class="profile-form">
+                    <div class="form-group">
+                        <label for="profileName">昵称:</label>
+                        <input type="text" id="profileName" name="name" value="双翼的天使">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileAge">年龄:</label>
+                        <input type="number" id="profileAge" name="age">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileBirthday">生日:</label>
+                        <input type="date" id="profileBirthday" name="birthday">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileAddress">地址:</label>
+                        <input type="text" id="profileAddress" name="address">
+                    </div>
+                    <div class="form-group">
+                        <label for="profileHobbies">爱好:</label>
+                        <textarea id="profileHobbies" name="hobbies" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="save-btn">保存</button>
+                    </div>
+                </form>
+            </div>
+            <!--好友栏-->
+            <div class="h-[54.5%] baise x yinying flex flex-col rounded-xl overflow-hidden">
+                <!-- 使用details实现折叠功能 -->
+                <details open class="group [&_summary]:cursor-pointer [&_summary]:list-none flex flex-col">
+                    <summary class="juzhon flex items-center justify-center"
+                        style="margin-top: 30px; margin-bottom: 30px">
+                        <b>好友列表</b>
+                        <svg class="ml-2 w-4 h-4 transform transition-transform duration-200 group-open:rotate-0"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </summary>
+                    <!--好友-->
+                    <div style="height: 80%; overflow: auto">
+                        <div
+                            class="haoyou flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                            <img src="touxiang/1.jpg" alt="好友头像" class="w-10 h-10 rounded-full object-cover" />
+                            <div class="ml-3">
+                                <div class="font-medium">张三</div>
+                                <div class="text-xs text-green-500">在线</div>
+                            </div>
+                        </div>
+                        <div
+                            class="haoyou flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                            <img src="touxiang/2.jpg" alt="好友头像" class="w-10 h-10 rounded-full object-cover" />
+                            <div class="ml-3">
+                                <div class="font-medium">李四</div>
+                                <div class="text-xs text-gray-500">离线</div>
+                            </div>
+                        </div>
+                        <div
+                            class="haoyou flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                            <img src="touxiang/3.jpg" alt="好友头像" class="w-10 h-10 rounded-full object-cover" />
+                            <div class="ml-3">
+                                <div class="font-medium">王五</div>
+                                <div class="text-xs text-gray-500">离线</div>
+                            </div>
+                        </div>
+                        <div
+                            class="haoyou flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                            <img src="touxiang/4.jpg" alt="好友头像" class="w-10 h-10 rounded-full object-cover" />
+                            <div class="ml-3">
+                                <div class="font-medium">赵六</div>
+                                <div class="text-xs text-gray-500">离线</div>
+                            </div>
+                        </div>
+                        <div
+                            class="haoyou flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                            <img src="touxiang/5.jpg" alt="好友头像" class="w-10 h-10 rounded-full object-cover" />
+                            <div class="ml-3">
+                                <div class="font-medium">冯七</div>
+                                <div class="text-xs text-gray-500">离线</div>
+                            </div>
+                        </div>
+                        <div
+                            class="haoyou flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                            <img src="touxiang/6.jpg" alt="好友头像" class="w-10 h-10 rounded-full object-cover" />
+                            <div class="ml-3">
+                                <div class="font-medium">钱八</div>
+                                <div class="text-xs text-gray-500">离线</div>
+                            </div>
+                        </div>
+                        <div
+                            class="haoyou flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                            <img src="touxiang/7.jpg" alt="好友头像" class="w-10 h-10 rounded-full object-cover" />
+                            <div class="ml-3">
+                                <div class="font-medium">龙九</div>
+                                <div class="text-xs text-gray-500">离线</div>
+                            </div>
+                        </div>
+                        <div
+                            class="haoyou flex items-center p-3 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                            <img src="touxiang/8.jpg" alt="好友头像" class="w-10 h-10 rounded-full object-cover" />
+                            <div class="ml-3">
+                                <div class="font-medium">钱八</div>
+                                <div class="text-xs text-gray-500">啊十</div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+            </div>
+            <!--点赞盒子-->
+            <div class="x baise juzhon flex1 like-container" id="dianzan_box1">
+                <span class="heart gray" id="dianzan_heart1">♥</span>
+                <span id="dianzan_count1">0</span> 人点赞
+            </div>
+            <div class="baise flex1 juzhon like-container" id="dianzan_box2">
+                <span class="heart gray" id="dianzan_heart2">♥</span>
+                <span id="dianzan_count2">0</span> 人点赞
+            </div>
+        </div>
+        <!--中间栏-->
+        <div style="width: 65%" class="flex column">
+            <!--标签栏-->
+            <div style="height: 6%" class="flex">
+                <a href="shuoshuo.html" class="flex1 box s">说说</a>
+                <a href="rizhi.html" class="flex1 box s">日志</a>
+                <a href="xiangce.html" class="flex1 box s">相册</a>
+                <a href="qita.html" class="flex1 box s">其他</a>
+                <a href="beiyong.html" class="flex1 box s">备用</a>
+            </div>
+            <!--内容栏-->
+            <div style="overflow: auto" class="flex1 baise neib ">
+                <h2 class="shuzhon ziti">欢迎来到我的个人空间</h2>
+                <p class="shuzhon ziti">这里是我的个人主页，记录我的生活点滴和兴趣爱好。</p>
+                <p class="shuzhon ziti">你可以通过上方的标签页浏览不同的内容。</p>
+                <p class="shuzhon ziti">左侧可以查看我的好友列表，右侧有我的照片和实用工具。</p>
+
+                <hr style="margin: 20px 0;">
+
+                <div style="margin-top: 20px;">
+                    <h3 class="x ziti">心情驿站</h3>
+                    <textarea id="personalNotes" style="width: 100%; height: 400px; padding: 10px;"
+                        placeholder="在这里记录你的心情..."></textarea>
+                    <button onclick="saveNotes()" style="margin-top: 10px; padding: 8px 15px; 
+                            background-color: #4CAF50; color: white; border: none; border-radius: 4px;">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!--右边栏-->
+        <div class="flex1 flex column z y s">
+            <!--相册1-->
+            <div class="x baise yinying" style="height: 30%">
+                <video src="tupian/5.mp4" alt="视频" class="tupian " controls (autoplay) loop></video>
+            </div>
+            <div class="x baise" style="height: 30%">
+                <img src="tupian/22.jpg" alt="图片" class="tupian cursor-pointer" id="switchableImage" />
+            </div>
+            <!--计算器-->
+            <div class="baise x juzhon" style="height: 30%">
+                <div class="calculator">
+                    <div class="screen" id="jisuan_screen">0</div>
+                    <div class="buttons">
+                        <button class="ac " id="jisuan_clear">AC</button>
+                        <button class="" id="jisuan_equal">=</button>
+                        <button class="jisuan_btn" data-value="0">0</button>
+                        <button class="jisuan_btn" data-value="+">+</button>
+                        <button class="jisuan_btn" data-value="1">1</button>
+                        <button class="jisuan_btn" data-value="2">2</button>
+                        <button class="jisuan_btn" data-value="3">3</button>
+                        <button class="jisuan_btn" data-value="-">-</button>
+                        <button class="jisuan_btn" data-value="4">4</button>
+                        <button class="jisuan_btn" data-value="5">5</button>
+                        <button class="jisuan_btn" data-value="6">6</button>
+                        <button class="jisuan_btn" data-value="*">×</button>
+                        <button class="jisuan_btn" data-value="7">7</button>
+                        <button class="jisuan_btn" data-value="8">8</button>
+                        <button class="jisuan_btn" data-value="9">9</button>
+                        <button class="jisuan_btn" data-value="/">÷</button>
+                    </div>
+                </div>
+            </div>
+            <!--记录栏-->
+            <div style="flex: 1" class="baise juzhon">
+                <p>今日访问: <span class="y" id="todayVisits">1</span></p>
+                <p>总访问数: <span class="y" id="totalVisits">1</span></p>
+                <p>最后访问: <span class="y" id="lastVisit">刚刚</span></p>
+            </div>
+        </div>
+    </div>
+    <!--结尾栏-->
+    <div style="margin-top: 50px" class="flex1 juzhon flex column">
+        <p class="x">版权所有: 双翼的天使</p>
+        <a href="index.html">返回首页</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>说说 - 双翼天使的空间</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="biaoti flex">
+        <div class="juz">
+            <h1 class="zwb">我的说说</h1>
+        </div>
+        <div class="flex1 flex a9 z">
+            <a class="ywb" href="login.html" target="_blank">登入</a>
+        </div>
+    </div>
+
+    <div class="flex zhuqu">
+        <div style="width: 15%" class="z y flex column">
+            <div class="baise x touxiang yinying">
+                <img src="touxiang/13.jpg" alt="头像图片" class="avatar" />
+                <b class="nichen">双翼的天使</b>
+            </div>
+            <a href="index.html" class="baise x juzhon" style="padding: 10px;">返回首页</a>
+        </div>
+
+        <div style="width: 85%" class="flex column">
+            <div style="overflow: auto" class="flex1 baise neib">
+                <h2>我的心情</h2>
+                <div class="shuoshuo-item">
+                    <p>今天天气真好，出去散步了~</p>
+                    <small>2023-05-15 14:30</small>
+                </div>
+                <div class="shuoshuo-item">
+                    <p>学习了一整天，有点累但很充实。</p>
+                    <small>2023-05-14 20:15</small>
+                </div>
+
+                <h3 style="margin-top: 30px;">发表新说说</h3>
+                <textarea id="newShuoshuo" rows="3" style="width: 100%; padding: 10px;"></textarea>
+                <button onclick="postShuoshuo()"
+                    style="margin-top: 10px; padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 4px;">发布</button>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 50px" class="flex1 juzhon flex column">
+        <p class="x">版权所有: 双翼的天使</p>
+        <a href="index.html">返回首页</a>
+    </div>
+
+    <script>
+        function postShuoshuo() {
+            const content = document.getElementById('newShuoshuo').value;
+            if (!content) return;
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString().slice(0, 5);
+
+            const shuoshuoItem = document.createElement('div');
+            shuoshuoItem.className = 'shuoshuo-item';
+            shuoshuoItem.innerHTML = `
+        <p>${content}</p>
+        <small>${dateStr}</small>
+      `;
+
+            document.querySelector('.neib').insertBefore(shuoshuoItem, document.querySelector('.neib h3'));
+            document.getElementById('newShuoshuo').value = '';
+
+            // 保存到本地存储
+            const shuoshuos = JSON.parse(localStorage.getItem('shuoshuos') || '[]');
+            shuoshuos.unshift({ content, date: dateStr });
+            localStorage.setItem('shuoshuos', JSON.stringify(shuoshuos));
+        }
+
+        // 加载保存的说说
+        document.addEventListener('DOMContentLoaded', () => {
+            const shuoshuos = JSON.parse(localStorage.getItem('shuoshuos') || '[]');
+            const container = document.querySelector('.neib');
+
+            shuoshuos.forEach(shuoshuo => {
+                const shuoshuoItem = document.createElement('div');
+                shuoshuoItem.className = 'shuoshuo-item';
+                shuoshuoItem.innerHTML = `
+          <p>${shuoshuo.content}</p>
+          <small>${shuoshuo.date}</small>
+        `;
+                container.insertBefore(shuoshuoItem, document.querySelector('.neib h3'));
+            });
+        });
+    </script>
+</body>
+
+</html>
